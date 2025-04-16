@@ -1,0 +1,39 @@
+
+> librarian@0.0.1 dev
+> vite
+
+
+  VITE v4.5.13  ready in 261 ms
+
+  ➜  Local:   http://localhost:51052/
+  ➜  Network: http://172.17.0.5:51052/
+  ➜  press h to show help
+error when starting dev server:
+Error: setRawMode EIO
+    at ReadStream.setRawMode (node:tty:81:24)
+    at bindShortcuts (file:///workspace/librarian/node_modules/vite/dist/node/chunks/dep-42dae6ba.js:57348:19)
+    at CAC.<anonymous> (file:///workspace/librarian/node_modules/vite/dist/node/cli.js:785:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+  #  Node.js[2460]: void node::ResetStdio() at ../src/node.cc:760
+  #  Assertion failed: !(err != 0) || (err == -1 && (*__errno_location ()) == 1)
+
+----- Native stack trace -----
+
+ 1: 0xf49dec node::Assert(node::AssertionInfo const&) [node]
+ 2: 0xefafa8  [node]
+ 3: 0xffff93c8ce8c  [/lib/aarch64-linux-gnu/libc.so.6]
+ 4: 0xffff93c8cf60  [/lib/aarch64-linux-gnu/libc.so.6]
+ 5: 0xe5acfc node::DefaultProcessExitHandlerInternal(node::Environment*, node::ExitCode) [node]
+ 6: 0xebbe5c node::Environment::Exit(node::ExitCode) [node]
+ 7: 0x1c54f98  [node]
+
+  #  Node.js[2460]: void node::ResetStdio() at ../src/node.cc:760
+  #  Assertion failed: !(err != 0) || (err == -1 && (*__errno_location ()) == 1)
+
+----- Native stack trace -----
+
+ 1: 0xf49dec node::Assert(node::AssertionInfo const&) [node]
+ 2: 0xefafa8  [node]
+ 3: 0xefb6e4 node::TrapWebAssemblyOrContinue(int, siginfo_t*, void*) [node]
+ 4: 0xffff941e27a0 __kernel_rt_sigreturn [linux-vdso.so.1]
