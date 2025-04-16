@@ -9,5 +9,6 @@ export default defineConfig({
     port: 51052,
     host: '0.0.0.0',
     cors: true,
+    strictPort: true,
   },
 });

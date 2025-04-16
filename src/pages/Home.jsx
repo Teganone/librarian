@@ -21,7 +21,7 @@ const Home = () => {
       <h1>图书馆管理系统主页</h1>
       {currentUser ? (
         <div>
-          <p>欢迎, {currentUser.email} (角色: {currentUser.role})!</n          </p>
+          <p>欢迎, {currentUser.email} (角色: {currentUser.role})!          </p>
           {/* 显示登出按钮 */}
           <LogoutButton />
         </div>
