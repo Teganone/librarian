@@ -1,102 +1,92 @@
-/*
-  RegisterForm.jsx
-  用户注册组件，基于 Ant Design Form 实现。
-  包含邮箱、密码、学号/工号、角色选择及动态显示的 staff key 字段。
-  提交表单后打印提交数据并显示成功提示。
-*/
-
 import React, { useState } from 'react';
-import { Form, Input, Button, Select, message } from 'antd';
+import { Form, Input, Select, Button, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
-const { Option } = Select;
-
+// RegisterForm component handles the registration form for the library management system.
+// It uses Ant Design's Form component with vertical layout, max width 400px centered.
+// It includes fields for Email, Password, Student/Worker ID, Role selection, and conditionally Staff Key if role is "staff".
 const RegisterForm = () => {
-  const [form] = Form.useForm();
-  // 根据角色是否为 'staff' 来控制是否显示 staff key 字段
+  // State to track if the selected role is "staff"
   const [isStaff, setIsStaff] = useState(false);
 
-  // 监听表单值变化，特别是 role 字段的变化
-  const onValuesChange = (changedValues) => {
-    if (changedValues.role !== undefined) {
-      setIsStaff(changedValues.role === 'staff');
-    }
+  const navigate = useNavigate();
+  // Inline style for centering form with max width 400px
+  const formStyle = {
+    maxWidth: '400px',
+    margin: '0 auto',
   };
 
-  // 表单提交成功后的回调
+  // Function called on form submission
   const onFinish = (values) => {
-    console.log('注册提交的数据:', values);
-    // 模拟注册成功
+    console.log('Registration form submitted:', values);
     message.success('注册成功！');
+    navigate('/login');
+    // Add further logic for registration if needed
+  };
+
+  // Handle role change to determine whether to show Staff Key input
+  const handleRoleChange = (value) => {
+    
+    setIsStaff(value === 'staff');
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onValuesChange={onValuesChange}
-      onFinish={onFinish}
-      style={{ maxWidth: 400, width: '100%', margin: '0 auto' }}
-    >
-      {/* 邮箱输入项，必填且校验邮箱格式 */}
-      <Form.Item
-        name="email"
-        label="邮箱"
-        rules=[
-          { required: true, message: '请输入邮箱' },
-          { type: 'email', message: '邮箱格式不正确' }
-        ]
-      >
-        <Input placeholder="请输入邮箱" />
-      </Form.Item>
-
-      {/* 密码输入项，必填 */}
-      <Form.Item
-        name="password"
-        label="密码"
-        rules={[{ required: true, message: '请输入密码' }]}
-      >
-        <Input.Password placeholder="请输入密码" />
-      </Form.Item>
-
-      {/* 学号/工号输入项，必填 */}
-      <Form.Item
-        name="idE"
-        label="学号/工号"
-        rules={[{ required: true, message: '请输入学号/工号' }]}
-      >
-        <Input placeholder="请输入学号/工号" />
-      </Form.Item>
-
-      {/* 角色选择，下拉选项包括学生和职员 */}
-      <Form.Item
-        name="role"
-        label="角色选择"
-        rules={[{ required: true, message: '请选择角色' }]}
-      >
-        <Select placeholder="请选择角色">
-          <Option value="student">学生</Option>
-          <Option value="staff">职员</Option>
-        </Select>
-      </Form.Item>
-
-      {/* 当角色选择为职员时，动态显示 Staff Key 字段 */}
-      {isStaff && (
+    <div style={formStyle}>
+      <h2 style={{ textAlign: 'center' }}>注册</h2>
+      <Form layout="vertical" onFinish={onFinish}>
+        {/* Email input field */}
         <Form.Item
-          name="staffKey"
-          label="Staff Key"
-          rules={[{ required: true, message: '请输入 staff key' }]}
+          label="邮箱"
+          name="email"
+          rules={[{ required: true, message: '请输入邮箱' }, { type: 'email', message: '请输入有效的邮箱地址' }]}
         >
-          <Input placeholder="请输入 staff key" />
+          <Input placeholder="请输入邮箱" />
         </Form.Item>
-      )}
-
-      {/* 提交按钮 */}
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          注册
-        </Button>
-      </Form.Item>
-    </Form>
+        {/* Password input field */}
+        <Form.Item
+          label="密码"
+          name="password"
+          rules={[{ required: true, message: '请输入密码' }]}
+        >
+          <Input.Password placeholder="请输入密码" />
+        </Form.Item>
+        {/* Student/Worker ID input field */}
+        <Form.Item
+          label="学号/工号"
+          name="id"
+          rules={[{ required: true, message: '请输入学号/工号' }]}
+        >
+          <Input placeholder="请输入学号/工号" />
+        </Form.Item>
+        {/* Role selection dropdown */}
+        <Form.Item
+          label="角色"
+          name="role"
+          rules={[{ required: true, message: '请选择角色' }]}
+        >
+          <Select placeholder="请选择角色" onChange={handleRoleChange}>
+            <Select.Option value="student">学生</Select.Option>
+            <Select.Option value="staff">职员</Select.Option>
+          </Select>
+        </Form.Item>
+        {/* Conditional Staff Key field, only shown when role is "staff" */}
+        {isStaff && (
+          <Form.Item
+            label="Staff Key"
+            name="staffKey"
+            rules={[{ required: true, message: '请输入 staff key' }]}
+          >
+            <Input placeholder="请输入 staff key" />
+          </Form.Item>
+        )}
+        {/* Submit button */}
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+            注册
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 
