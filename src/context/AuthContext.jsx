@@ -2,7 +2,7 @@
   AuthContext.js
   ----------------------------
   全局用户状态管理，通过 React Context 提供登录、登出以及保存 currentUser 状态。
-  currentUser 对象包含用户的 email, role, idE, token 等信息。
+  currentUser 对象包含用户的 email, role, id, token 等信息。
 */
 
 import React, { createContext, useState } from 'react';
