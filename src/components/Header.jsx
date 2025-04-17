@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Layout, Menu, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 /**
@@ -8,6 +9,7 @@ import { AuthContext } from '../context/AuthContext';
  */
 const Header = () => {
   const { currentUser, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // 导航菜单项
   const menuItems = [
@@ -34,8 +36,8 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Button type="primary" style={{ marginRight: '10px' }}>登录</Button>
-            <Button>注册</Button>
+            <Button type="primary" style={{ marginRight: '10px' }} onClick={() => navigate('/login')}>登录</Button>
+            <Button onClick={() => navigate('/register')}>注册</Button>
           </>
         )}
       </div>
