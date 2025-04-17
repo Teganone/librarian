@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Button, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 // RegisterForm component handles the registration form for the library management system.
 // It uses Ant Design's Form component with vertical layout, max width 400px centered.
@@ -8,6 +9,7 @@ const RegisterForm = () => {
   // State to track if the selected role is "staff"
   const [isStaff, setIsStaff] = useState(false);
 
+  const navigate = useNavigate();
   // Inline style for centering form with max width 400px
   const formStyle = {
     maxWidth: '400px',
@@ -18,11 +20,13 @@ const RegisterForm = () => {
   const onFinish = (values) => {
     console.log('Registration form submitted:', values);
     message.success('注册成功！');
+    navigate('/login');
     // Add further logic for registration if needed
   };
 
   // Handle role change to determine whether to show Staff Key input
   const handleRoleChange = (value) => {
+    
     setIsStaff(value === 'staff');
   };
 
