@@ -12,14 +12,14 @@
 import React, { useContext } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext.jsx';
 
 const LoginForm = () => {
   // 使用 react-router 的 useNavigate 实现页面跳转
   const navigate = useNavigate();
   
   // 从 AuthContext 中获取设置当前用户的函数
-  const { setCurrentUser } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   // 表单样式：垂直布局，最大宽度400px，居中显示
   const formStyle = {
@@ -43,7 +43,7 @@ const LoginForm = () => {
       token: 'dummy-token', // 模拟 token
       role: values.email === 'admin' ? 'admin' : 'user',
     };
-    setCurrentUser(user);
+    login(user);
     message.success('登录成功！');
     // 登录成功后跳转到用户主页
     navigate('/home');
