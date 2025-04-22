@@ -11,6 +11,18 @@ const RegisterForm = () => {
 
   const navigate = useNavigate();
   // Inline style for centering form with max width 400px
+const validateAdminPassword = ({ getFieldValue }) => ({
+  dependencies: ['role'],
+  validator: (_, value) => {
+    const role = getFieldValue('role');
+    if (role === 'admin' && value !== 'admin') {
+      return Promise.reject(new Error('系统管理员密码必须为admin'));
+    }
+    return Promise.resolve();
+  },
+
+});
+
   const formStyle = {
     maxWidth: '400px',
     margin: '0 auto',
@@ -38,15 +50,15 @@ const RegisterForm = () => {
         <Form.Item
           label="邮箱"
           name="email"
-          rules={[{ required: true, message: '请输入邮箱' }, { type: 'email', message: '请输入有效的邮箱地址' }]}
+          rules={[{ required: true, message: '请输入邮箱' }, ({ getFieldValue }) => ({ dependencies: ['role'], validator: (_, value) => { const role = getFieldValue('role'); if(role === 'admin') { return value === 'admin' ? Promise.resolve() : Promise.reject(new Error('系统管理员账号必须为admin')); } if(value === 'admin') { return Promise.reject(new Error('请输入有效的邮箱地址')); } const emailRegex = /^\S+@\S+\.\S+$/; return emailRegex.test(value) ? Promise.resolve() : Promise.reject(new Error('请输入有效的邮箱地址')); } })]}
         >
-          <Input placeholder="请输入邮箱" />
+          <Input type="text" placeholder="请输入邮箱" />
         </Form.Item>
         {/* Password input field */}
         <Form.Item
           label="密码"
           name="password"
-          rules={[{ required: true, message: '请输入密码' }]}
+          rules={[{ required: true, message: '请输入密码' }, validateAdminPassword]}
         >
           <Input.Password placeholder="请输入密码" />
         </Form.Item>
