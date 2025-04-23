@@ -4,6 +4,8 @@
   使用 react-router-dom 的 Routes 和 Route 来定义页面跳转规则
 */
 
+import StudentDashboard from './components/StudentDashboard';
+
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -22,6 +24,9 @@ function App() {
       {/* 注册页面路由 */}
       <Route path="/register" element={<Register />} />
       {/* 未匹配路由重定向至首页 */}
+      {/* 学生仪表盘路由 */}
+      <Route path="/dashboard/student" element={<StudentDashboard />} />
+
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
