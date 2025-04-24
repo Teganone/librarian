@@ -5,6 +5,8 @@
 */
 
 import StudentDashboard from './components/StudentDashboard';
+import StaffDashboard from './components/StaffDashboard';
+
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -26,8 +28,8 @@ function App() {
       {/* 未匹配路由重定向至首页 */}
       {/* 学生仪表盘路由 */}
       <Route path="/dashboard/student" element={<StudentDashboard />} />
+      <Route path="/dashboard/staff" element={<StaffDashboard />} />
 
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
