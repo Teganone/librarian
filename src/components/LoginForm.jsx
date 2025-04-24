@@ -45,8 +45,14 @@ const LoginForm = () => {
     };
     login(user);
     message.success('登录成功！');
-    // 登录成功后跳转到用户主页
-    navigate('/home');
+    // 登录成功后根据角色跳转
+    if (user.role === 'admin') {
+      navigate('/dashboard/staff');
+    } else if (user.role === 'user') {
+      navigate('/dashboard/student');
+    } else {
+      navigate('/');
+    }
   };
 
   // 邮箱字段校验规则：必输且需符合邮箱格式
