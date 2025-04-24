@@ -29,9 +29,22 @@ const LoginForm = () => {
 
   // 表单提交处理函数
   const onFinish = (values) => {
-    // 如果是管理员账户，则密码必须为 'admin'
-    if (values.email === 'staff' && values.password !== 'staff') {
+    // 管理员账户校验
+    if (values.email === 'admin' && values.password !== 'admin') {
       message.error("管理员账户的密码必须为 'admin'！");
+      return;
+    }
+    // 工作人员账户校验
+    if (values.email.endsWith('@staff.com') && values.password !== 'staff') {
+      message.error("工作人员账户的密码必须为 'staff'！");
+      return;
+    }
+    // 学生账户校验：对于非 admin/staff 的用户，邮箱必须以 @stu.com 结尾
+    const isAdmin = values.email === 'admin';
+    const isStaff = values.email.endsWith('@staff.com');
+    const isStudent = !isAdmin && !isStaff;
+    if (isStudent && !values.email.endsWith('@stu.com')) {
+      message.error("学生账户的邮箱必须以 '@stu.com' 结尾！");
       return;
     }
     
@@ -41,26 +54,25 @@ const LoginForm = () => {
 
 
       token: 'dummy-token', // 模拟 token
-    role: values.email === 'staff' ? 'staff' : 'user',
+    role: values.email === 'admin' ? 'admin' : values.email.endsWith('@staff.com') ? 'staff' : 'student',
       
     };
     login(user);
     message.success('登录成功！');
     // 登录成功后根据角色跳转
-    if (user.role === 'staff') {
-      navigate('/dashboard/staff');
-    } else if (user.role === 'user') {
-      navigate('/dashboard/student');
-    } else {
-      navigate('/');
-    }
-  };
+    if (user.role === 'admin') { navigate('/'); } else if (user.role === 'student') { navigate('/dashboard/student'); } else if (user.role === 'staff') { navigate('/dashboard/staff'); } else { navigate('/'); }
+    };
 
   // 邮箱字段校验规则：必输且需符合邮箱格式
   const emailRules = [
     { required: true, message: '请输入邮箱!' },
     { validator: (_, value) => {
-        if (value === 'admin') {
+        // Allow admin, staff, and student email cases
+        if (
+          value === 'admin' ||
+          value.endsWith('@staff.com') ||
+          value.endsWith('@stu.com')
+        ) {
           return Promise.resolve();
         }
         const emailRegex = /^\S+@\S+\.\S+$/;
