@@ -30,7 +30,7 @@ const LoginForm = () => {
   // 表单提交处理函数
   const onFinish = (values) => {
     // 如果是管理员账户，则密码必须为 'admin'
-    if (values.email === 'admin' && values.password !== 'admin') {
+    if (values.email === 'staff' && values.password !== 'staff') {
       message.error("管理员账户的密码必须为 'admin'！");
       return;
     }
@@ -41,12 +41,13 @@ const LoginForm = () => {
 
 
       token: 'dummy-token', // 模拟 token
-      role: values.email === 'admin' ? 'admin' : 'user',
+    role: values.email === 'staff' ? 'staff' : 'user',
+      
     };
     login(user);
     message.success('登录成功！');
     // 登录成功后根据角色跳转
-    if (user.role === 'admin') {
+    if (user.role === 'staff') {
       navigate('/dashboard/staff');
     } else if (user.role === 'user') {
       navigate('/dashboard/student');
